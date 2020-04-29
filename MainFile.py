@@ -19,7 +19,22 @@ def manhinhtren():
     next_button = Button(frame, image=next_imageTk)
     next_button.image = next_imageTk
     next_button.pack_configure(side=RIGHT)
-
+#filename: eventfile
+class file():
+        def __init__(self, filename):
+		self.filename = filename
+	def listboxevent():
+		listevent = []
+		file = open(self.filename, 'r')
+		for line in range(1, len(file))
+			list.append(file.readline().[1])
+		return listevent
+	def insertcomboevent(self, combo_event_name):
+		list_event = {}
+		combo_event = combo_event_name, list_event
+		file = open(self.filename, 'a')
+		file.write(combo_event)
+		file.write('\n')
 
 class manhinhchua():
     def __init__(self):
