@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter.colorchooser import *
 from PIL import Image, ImageTk
 
-Print(hello)
 def chonmau():
     a, b = askcolor()
     print(b)
