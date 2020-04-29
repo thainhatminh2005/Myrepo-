@@ -60,6 +60,7 @@ class manhinhchua():
         button = Button(frame, text = 'Enter')
         button.pack_configure(pady = 5)
     def xemsk(self):
+        pass
 
     def khungtaosk(self):
         frame = Frame(self.frame)
