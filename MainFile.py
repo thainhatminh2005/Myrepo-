@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 
 def chonmau():
     a, b = askcolor()
-    print(b)
+    print(b, a)
 def manhinhtren():
     back_image = Image.open('back.jpg')
     back_imageTk = ImageTk.PhotoImage(back_image)
