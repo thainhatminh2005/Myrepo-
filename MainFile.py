@@ -21,9 +21,10 @@ def manhinhtren():
     next_button.pack_configure(side=RIGHT)
 #filename: eventfile
 class file():
-        def __init__(self, filename):
-		self.filename = filename
-	def listboxevent():
+    def __init__(self, filename):
+	    self.filename = filename
+	
+	def listboxevent(self):
 		listevent = []
 		file = open(self.filename, 'r')
 		for line in range(1, len(file))
