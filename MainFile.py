@@ -1,7 +1,10 @@
 from tkinter import *
 from tkinter.colorchooser import *
 from PIL import Image, ImageTk
+import json
 
+def checkfile():
+    pass
 def chonmau():
     a, b = askcolor()
     print(b, a)
@@ -20,22 +23,32 @@ def manhinhtren():
     next_button.image = next_imageTk
     next_button.pack_configure(side=RIGHT)
 #filename: eventfile
-class file():
+class handling_file():
     def __init__(self, filename):
-	    self.filename = filename
-	
-	def listboxevent(self):
-		listevent = []
-		file = open(self.filename, 'r')
-		for line in range(1, len(file))
-			list.append(file.readline().[1])
-		return listevent
-	def insertcomboevent(self, combo_event_name):
-		list_event = {}
-		combo_event = combo_event_name, list_event
-		file = open(self.filename, 'a')
-		file.write(combo_event)
-		file.write('\n')
+        self.filename = filename + '.json'
+        try:
+            open(self.filename).close()
+        except:
+            json.dump({},open(self.filename, 'w+'))
+    def list_combo_event(self):
+        file_event = open(self.filename, 'r')
+        data = json.load(file_event)
+        return data.keys()
+    def dictionary_event(self, combo_name):
+        file_event = open(self.filename, 'r')
+        data = json.load(file_event)
+        return data[combo_name]
+    def add_event(self, combo_name, event, date):
+        combo_event = self.dictionary_event(combo_name)
+        combo_event[event] = date
+        file_event = open(self.filename, 'w')
+        json.dump(combo_event, file_event)
+    def add_combo_event(self, combo_name):
+        file_event = open(self.filename, 'r')
+        data = json.load(file_event)
+        data[combo_name] = {}
+        file_event = open(self.filename, 'w')
+        json.dump(data, file_event)
 
 class manhinhchua():
     def __init__(self):
@@ -134,21 +147,21 @@ class manhinhchua():
     def khungtaosk(self):
         frame = Frame(self.frame)
         frame.pack_configure(fill = BOTH, expand = True)
-        label_question = Label(frame2, text = '')
+        label_question = Label(frame, text = '')
         label_question.pack_configure()
         frame_answer = Frame(frame)
         frame_answer.pack_configure()
-        label_day = Label(frame3, text = 'Ngày')
+        label_day = Label(frame_answer, text = 'Ngày')
         label_day.pack_configure(side = LEFT)
-        entry_day = Entry(frame3, width = 2)
+        entry_day = Entry(frame_answer, width = 2)
         entry_day.pack_configure(side = LEFT)
-        label_month = Label(frame3, text='Tháng')
+        label_month = Label(frame_answer, text='Tháng')
         label_month.pack_configure(side=LEFT)
-        entry_month = Entry(frame3, width=2)
+        entry_month = Entry(frame_answer, width=2)
         entry_month.pack_configure(side=LEFT)
-        label_year = Label(frame3, text='Năm')
+        label_year = Label(frame_answer, text='Năm')
         label_year.pack_configure(side=LEFT)
-        entry_year = Entry(frame3, width=4)
+        entry_year = Entry(frame_answer, width=4)
         entry_year.pack_configure(side=LEFT)
         frame4 = Frame(frame)
         frame4.pack_configure(side = BOTTOM, anchor = E, padx = 10)
@@ -156,6 +169,7 @@ class manhinhchua():
         button1.pack_configure(pady=5, side = RIGHT)
         button2 = Button(frame4, text = 'hoàn thành')
         button2.pack_configure(side = RIGHT)  
+
 #TAO MAN HINH
 window = Tk()
 window.wm_title('History Event')
