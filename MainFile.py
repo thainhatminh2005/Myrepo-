@@ -1,10 +1,10 @@
 from tkinter import *
 from tkinter.colorchooser import *
 from PIL import Image, ImageTk
+from random import Random
 import json
 
-def checkfile():
-    pass
+
 def chonmau():
     a, b = askcolor()
     print(b, a)
@@ -23,6 +23,19 @@ def manhinhtren():
     next_button.image = next_imageTk
     next_button.pack_configure(side=RIGHT)
 #filename: eventfile
+class different_random():
+    def __init__(self):
+        self.list_number = []
+    def different_random(self, end):
+        while True:
+            random_number = Random().randint(0, end)
+            if not random_number in self.list_number:
+                break
+        self.list_number.append(random_number)
+        return random_number
+    def renew(self):
+        self.list_number = []
+
 class handling_file():
     def __init__(self, filename):
         self.filename = filename + '.json'
@@ -65,13 +78,20 @@ class handling_file():
         return number_of_event
 
 class manage_frame(Frame):
+    before_page = next_page = None
     def __init__(self):
         Frame.__init__(self, window, bg='#000000', height=269)
         self.pack_configure(fill=BOTH, expand=True)
+        self.list_page = []
+    def show(self, page):
+        page.tkraise()
+        self.now_page = page
+    def add_page(self, new_page):
+        if not self.next_page is new_page:
+            del self.list_page[self.list_page.index([self.next_page]):-1]
 
-
-    def show(self):
-        self.tkraise()
+    def delete_page(self):
+        del self.list_page
 
 class page1st(manage_frame):
     def __init__(self):
