@@ -90,65 +90,64 @@ class manage_frame(Frame):
         if not self.next_page is new_page:
             del self.list_page[self.list_page.index([self.next_page]):-1]
 
-    def delete_page(self):
-        del self.list_page
-
-class page1st(manage_frame):
-    def __init__(self):
-        Frame.__init__(self, manage_frame())
+class page_1st(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
         self.pack_configure(fill=BOTH, expand=True)
         label = Label(self, text='Cùng nhau học sự kiện lịch sử')
         label.pack_configure()
-        button1st = Button(self, text='Tạo sự kiện', height=2, width=15)
-        button1st.pack_configure(pady=2)
-        button2nd = Button(self, text='Kiểm tra', height=2, width=15)
-        button2nd.pack_configure(pady=2)
+        button_1st = Button(self, text='Tạo sự kiện', height=2, width=15)
+        button_1st.pack_configure(pady=2)
+        button_2nd = Button(self, text='Kiểm tra', height=2, width=15)
+        button_2nd.pack_configure(pady=2)
 
-def pagetao(self):
-    frame = Frame(self.frame)
-    frame.pack_configure(fill=BOTH, expand=True)
-    button1st = Button(frame, text='Tạo bộ mới', height=2, width=15)
-    button1st.pack_configure(pady=2)
-    button2nd = Button(frame, text='Xem các bộ\nsự kiện đã có', height=2, width=15)
-    button2nd.pack_configure(pady=2)
+class page_create(Frame):
+    def __init__(self, parent):
+        Frame.__init__ (self, parent)
+        self.pack_configure(fill=BOTH, expand=True)
+        button_1st = Button(frame, text='Tạo bộ mới', height=2, width=15)
+        button_1st.pack_configure(pady=2)
+        button_2nd = Button(frame, text='Xem các bộ\nsự kiện đã có', height=2, width=15)
+        button_2nd.pack_configure(pady=2)
+
+class page_see_combo(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        self.pack_configure(fill=BOTH, expand=True)
+        label = Label(frame, text='Các bộ sự kiện đã có')
+        label.pack_configure() 
+        frame = Frame(frame, width=300, height=200, bg='#00ffff')
+        frame.pack_configure()
+        scrollbar = Scrollbar(frame)
+        scrollbar.pack_configure(side=RIGHT, fill=Y)
+        listbox = Listbox(frame2, width=75, yscrollcommand=scrollbar.set)
+        for i in range(1, 10):
+           listbox.insert(END, i)
+        listbox.pack_configure(side=LEFT)
+        scrollbar.configure(command=listbox.yview)
+        button = Button(frame, text='Xem')
+        button.pack_configure(pady=5)
 
 
-def pagetaosk(self):
-    frame = Frame(self.frame)
-    frame.pack_configure(fill=BOTH, expand=True)
-    label = Label(frame, text='Các bộ sự kiện đã có')
-    label.pack_configure()
-    frame2 = Frame(frame, width=300, height=200, bg='#00ffff')
-    frame2.pack_configure()
-    scrollbar = Scrollbar(frame2)
-    scrollbar.pack_configure(side=RIGHT, fill=Y)
-    listbox = Listbox(frame2, width=75, yscrollcommand=scrollbar.set)
-    for i in range(1, 10):
-        listbox.insert(END, i)
-    listbox.pack_configure(side=LEFT)
-    scrollbar.configure(command=listbox.yview)
-    button = Button(frame, text='Enter')
-    button.pack_configure(pady=5)
-
-
-def xemsk(self):
-    frame = Frame(self.frame)
-    frame.pack_configure(fill=BOTH, expand=True)
-    label = Label(frame, text='Các sự kiện')
-    label.pack_configure()
-    frame2 = Frame(frame, width=300, height=200, bg='#00ffff')
-    frame2.pack_configure()
-    scrollbar = Scrollbar(frame2)
-    scrollbar.pack_configure(side=RIGHT, fill=Y)
-    listbox = Listbox(frame2, width=75, yscrollcommand=scrollbar.set)
-    for i in range(1, 100):
-        listbox.insert(END, i)
-    listbox.pack_configure(side=LEFT)
-    scrollbar.configure(command=listbox.yview)
-    button = Button(frame, text='See')
-    button.pack_configure(pady=5)
-    button1 = Button(frame, text='thêm sự kiện')
-    button1.pack_configure(pady=5)
+class page_see_event(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent())
+        self.pack_configure(fill=BOTH, expand=True)
+        label = Label(frame, text='Các sự kiện')
+        label.pack_configure()
+        frame2 = Frame(frame, width=300, height=200, bg='#00ffff')
+        frame2.pack_configure()
+        scrollbar = Scrollbar(frame2)
+        scrollbar.pack_configure(side=RIGHT, fill=Y)
+        listbox = Listbox(frame2, width=75, yscrollcommand=scrollbar.set)
+        for i in range(1, 100):
+           listbox.insert(END, i)
+        listbox.pack_configure(side=LEFT)
+        scrollbar.configure(command=listbox.yview)
+        button_1st = Button(frame, text='Xem')
+        button_1st.pack_configure(pady=5)
+        button_2nd = Button(frame, text='Thêm sự kiện')
+        button_2nd.pack_configure(pady=5)
 
 
 def sukien(self):
