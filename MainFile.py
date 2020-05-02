@@ -8,7 +8,7 @@ import json
 def chonmau():
     a, b = askcolor()
     print(b, a)
-class next_back_bar(Frame):
+class top_bar(Frame):
     def __init__(self):
         self.load_image()
         #widget on bar
@@ -93,12 +93,19 @@ class handling_file():
         data_event = data[combo_name]
         number_of_event = len(data_event)
         return number_of_event
-
+    def event(self, combo_name, event_number):
+        file_event = open(self.filename, 'r')
+        data = json.load(file_event)
+        data_event = data[combo_name]
+        list_event = data_event.key()
+        event = list_event[event_number]
+        return event
 class manage_page(Frame):
     def __init__(self):
         Frame.__init__(self, window, bg='#000000', height=269)
         self.pack_configure(fill=BOTH, expand=True)
         #Create page
+        self.top_bar = top_bar()
         self.page_1st = page_1st(self)
         self.page_change_event = page_change_event(self)
         self.page_choose_combo = page_choose_combo(self)
@@ -108,9 +115,12 @@ class manage_page(Frame):
         self.page_repair_event = page_repair_event(self)
         self.page_see_combo = page_see_combo(self)
         self.page_see_event = page_see_event(self)
-        self.next_back_bar = next_back_bar()
+        self.list = [self.page_change_event,self.page_choose_combo,
+                     self.page_create, self.page_create_combo, self.page_create_event,
+                     self.page_repair_event, self.page_see_combo, self.page_see_event]
         #End create page
-        self.list_page = []
+        for page in self.list:
+            self.page_1st.tkraise(page)
     def show(self, page):
         page.tkraise()
         try:
@@ -124,7 +134,7 @@ class manage_page(Frame):
                     del self.list_page[index_next_page:-1]
                 self.list_page.append(page)
             except:
-                pass
+                self.list_page = [page]
         self.page_now = page
         self.check_ability()
     def check_ability(self):
@@ -133,21 +143,20 @@ class manage_page(Frame):
             index_next_page = index_now_page + 1
             next_page = self.list_page[index_next_page]
             show_next_page = self.show(next_page)
-            image = self.next_back_bar.next_able_imageTk
-            self.next_back_bar.next_button.configure(image = image,command = show_next_page)
+            image = self.top_bar.next_able_imageTk
+            self.top_bar.next_button.configure(image = image,command = show_next_page)
         except:
-            image = self.next_back_bar.next_disable_imageTk
-            self.next_back_bar.next_button.configure(image=image, command=None)
+            image = self.top_bar.next_disable_imageTk
+            self.top_bar.next_button.configure(image=image, command=None)
         if index_now_page == 0:
-            image = self.next_back_bar.back_disable_imageTk
-            self.next_back_bar.back_button.configure(image=image, command=None)
+            image = self.top_bar.back_disable_imageTk
+            self.top_bar.back_button.configure(image=image, command=None)
         else:
             index_back_page = index_now_page - 1
             back_page = self.list_page[index_back_page]
             show_back_page = self.show(back_page)
-            image = self.next_back_bar.back_able_imageTk
-            self.next_back_bar.next_button.configure(image = image,command = show_back_page)
-
+            image = self.top_bar.back_able_imageTk
+            self.top_bar.next_button.configure(image = image,command = show_back_page)
 
 class page_1st(Frame):
     def __init__(self, parent):
@@ -190,7 +199,7 @@ class page_see_combo(Frame):
 
 class page_see_event(Frame):
     def __init__(self, parent):
-        Frame.__init__(self, parent())
+        Frame.__init__(self, parent)
         self.pack_configure(fill=BOTH, expand=True)
         label = Label(self, text='Các sự kiện')
         label.pack_configure()
@@ -212,7 +221,7 @@ class page_see_event(Frame):
 class page_repair_event(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent)
-        Frame.pack_configure(fill=BOTH, expand=True)
+        self.pack_configure(fill=BOTH, expand=True)
         label_event = Label(self)
         label_event.pack_configure()
         label_date = Label(self)
@@ -362,6 +371,6 @@ window = Tk()
 window.wm_title('History Event')
 window.wm_resizable(0,0)
 window.wm_geometry('500x300+400+200')
-Example = next_back_bar()
+Example = manage_page()
 
 window.mainloop()
