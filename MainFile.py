@@ -110,14 +110,44 @@ class manage_page(Frame):
         self.page_see_event = page_see_event(self)
         self.next_back_bar = next_back_bar()
         #End create page
+        self.list_page = []
     def show(self, page):
         page.tkraise()
-        self.now_page = page
+        try:
+            self.list_page.index(page)
+        except:
+            try:
+                index_now_page = self.list_page.index(self.page_now)
+                index_next_page = index_now_page + 1
+                next_page = self.list_page[index_next_page]
+                if not page is next_page:
+                    del self.list_page[index_next_page:-1]
+                self.list_page.append(page)
+            except:
+                pass
+        self.page_now = page
+        self.check_ability()
+    def check_ability(self):
+        index_now_page = self.list_page.index(self.page_now)
+        try:
+            index_next_page = index_now_page + 1
+            next_page = self.list_page[index_next_page]
+            show_next_page = self.show(next_page)
+            image = self.next_back_bar.next_able_imageTk
+            self.next_back_bar.next_button.configure(image = image,command = show_next_page)
+        except:
+            image = self.next_back_bar.next_disable_imageTk
+            self.next_back_bar.next_button.configure(image=image, command=None)
+        if index_now_page == 0:
+            image = self.next_back_bar.back_disable_imageTk
+            self.next_back_bar.back_button.configure(image=image, command=None)
+        else:
+            index_back_page = index_now_page - 1
+            back_page = self.list_page[index_back_page]
+            show_back_page = self.show(back_page)
+            image = self.next_back_bar.back_able_imageTk
+            self.next_back_bar.next_button.configure(image = image,command = show_back_page)
 
-
-    def add_page(self, new_page):
-        if not self.next_page is new_page:
-            del self.list_page[self.list_page.index([self.next_page]):-1]
 
 class page_1st(Frame):
     def __init__(self, parent):
