@@ -8,20 +8,37 @@ import json
 def chonmau():
     a, b = askcolor()
     print(b, a)
-def manhinhtren():
-    back_image = Image.open('back.jpg')
-    back_imageTk = ImageTk.PhotoImage(back_image)
-    next_image = Image.open('next.jpg')
-    next_imageTk = ImageTk.PhotoImage(next_image)
+class next_back_bar(Frame):
+    def __init__(self):
+        self.load_image()
+        #widget on bar
+        Frame.__init__(self, window, bg = '#a4ffa4', border = 1, relief = SUNKEN)
+        self.pack_configure(side = TOP, anchor = N, fill = X, padx = 3, pady = 3, expand = True)
+        self.back_button = Button(self, image=self.back_disable_imageTk)
+        self.back_button.image = self.back_disable_imageTk
+        self.back_button.pack_configure(side=LEFT)
+        self.next_button = Button(self, image=self.next_disable_imageTk)
+        self.next_button.image = self.next_disable_imageTk
+        self.next_button.pack_configure(side=RIGHT)
+    def load_image(self):
+        # load image
+        back_able_image = Image.open('back_able.jpg')
+        self.back_able_imageTk = ImageTk.PhotoImage(back_able_image)
+        back_disable_image = Image.open('back_disable.jpg')
+        self.back_disable_imageTk = ImageTk.PhotoImage(back_disable_image)
+        next_able_image = Image.open('next_able.jpg')
+        self.next_able_imageTk = ImageTk.PhotoImage(next_able_image)
+        next_disable_image = Image.open('next_disable.jpg')
+        self.next_disable_imageTk = ImageTk.PhotoImage(next_disable_image)
+    def disable_next_button(self):
+        self.next_button.configure(image = self.next_disable_imageTk)
+    def able_next_button(self):
+        self.next_button.configure(image = self.next_able_imageTk)
+    def disable_back_button(self):
+        self.back_button.configure(image = self.back_disable_imageTk)
+    def able_button_button(self):
+        self.back_button.configure(image = self.back_able_imageTk)
 
-    frame = Frame(window, bg = '#a4ffa4', border = 1, relief = SUNKEN)
-    frame.pack_configure(side = TOP, anchor = N, fill = X, padx = 3, pady = 3, expand = True)
-    back_button = Button(frame, image=back_imageTk)
-    back_button.image = back_imageTk
-    back_button.pack_configure(side=LEFT)
-    next_button = Button(frame, image=next_imageTk)
-    next_button.image = next_imageTk
-    next_button.pack_configure(side=RIGHT)
 #filename: eventfile
 class different_random():
     def __init__(self):
@@ -78,19 +95,26 @@ class handling_file():
         return number_of_event
 
 class manage_page(Frame):
-    # All pages
-    page_1st = page_1st(self)
-    page_create = page_create(self)
-    page_see_combo = page_see_combo(self)
-    page_see_event = page_see_event(self)
-    before_page = next_page = None
     def __init__(self):
         Frame.__init__(self, window, bg='#000000', height=269)
         self.pack_configure(fill=BOTH, expand=True)
-        self.list_page = []
+        #Create page
+        self.page_1st = page_1st(self)
+        self.page_change_event = page_change_event(self)
+        self.page_choose_combo = page_choose_combo(self)
+        self.page_create = page_create(self)
+        self.page_create_combo = page_create_combo(self)
+        self.page_create_event = page_create_event(self)
+        self.page_repair_event = page_repair_event(self)
+        self.page_see_combo = page_see_combo(self)
+        self.page_see_event = page_see_event(self)
+        self.next_back_bar = next_back_bar()
+        #End create page
     def show(self, page):
         page.tkraise()
         self.now_page = page
+
+
     def add_page(self, new_page):
         if not self.next_page is new_page:
             del self.list_page[self.list_page.index([self.next_page]):-1]
@@ -155,7 +179,7 @@ class page_see_event(Frame):
         button_2nd.pack_configure(pady=5)
 
 
-class page_create_event(Frame):
+class page_repair_event(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent)
         Frame.pack_configure(fill=BOTH, expand=True)
@@ -181,132 +205,133 @@ class page_change_event(Frame):
         self.pack_configure(fill=BOTH, expand=True)
         frame_event = Frame(self)
         frame_event.pack_configure()
-        text_event = Text(frame2, height=4, width=50)
+        text_event = Text(frame_event, height=4, width=50)
         text_event.pack_configure(side=RIGHT)
         text_event.insert(END, '')
-        label_event = Label(frame2, text='Nhập sự kiện')
+        label_event = Label(frame_event, text='Nhập sự kiện')
         label_event.pack_configure(side=LEFT, anchor=N)
         frame_date = Frame(self)
         frame_date.pack_configure()
-        label_day = Label(frame3, text='Ngày')
+        label_day = Label(frame_date, text='Ngày')
         label_day.pack_configure(side=LEFT)
-        entry_day = Entry(frame3, width=2)
+        entry_day = Entry(frame_date, width=2)
         entry_day.pack_configure(side=LEFT)
         entry_day.insert(END, '')
-        label_month = Label(frame3, text='Tháng')
+        label_month = Label(frame_date, text='Tháng')
         label_month.pack_configure(side=LEFT)
-        entry_month = Entry(frame3, width=2)
+        entry_month = Entry(frame_date, width=2)
         entry_month.pack_configure(side=LEFT)
         entry_month.insert(END, '')
-        label_year = Label(frame3, text='Năm')
+        label_year = Label(frame_date, text='Năm')
         label_year.pack_configure(side=LEFT)
-        entry_year = Entry(frame3, width=4)
+        entry_year = Entry(frame_date, width=4)
         entry_year.pack_configure(side=LEFT)
         entry_year.insert(END, '')
-        button = Button(frame, text='Save')
+        button = Button(self, text='Save')
         button.pack_configure(side=RIGHT)
 
 
-def khungtaosk(self):
-    frame = Frame(self.frame)
-    frame.pack_configure(fill=BOTH, expand=True)
-    frame2 = Frame(frame)
-    frame2.pack_configure()
-    text_sk = Text(frame2, height=4, width=50)
-    text_sk.pack_configure(side=RIGHT)
-    label_sk = Label(frame2, text='Nhập sự kiện')
-    label_sk.pack_configure(side=LEFT, anchor=N)
-    frame3 = Frame(frame)
-    frame3.pack_configure()
-    label_day = Label(frame3, text='Ngày')
-    label_day.pack_configure(side=LEFT)
-    entry_day = Entry(frame3, width=2)
-    entry_day.pack_configure(side=LEFT)
-    label_month = Label(frame3, text='Tháng')
-    label_month.pack_configure(side=LEFT)
-    entry_month = Entry(frame3, width=2)
-    entry_month.pack_configure(side=LEFT)
-    label_year = Label(frame3, text='Năm')
-    label_year.pack_configure(side=LEFT)
-    entry_year = Entry(frame3, width=4)
-    entry_year.pack_configure(side=LEFT)
-    frame4 = Frame(frame)
-    frame4.pack_configure(side=BOTTOM, anchor=E, padx=10)
-    button1 = Button(frame4, text='Tiếp tục')
-    button1.pack_configure(pady=5, side=RIGHT)
-    button2 = Button(frame4, text='hoàn thành')
-    button2.pack_configure(side=RIGHT)
+class page_create_event(Frame):
+    def __init(self, parent):
+        Frame.__init__(self, parent)
+        self.pack_configure(fill=BOTH, expand=True)
+        frame_event = Frame(self)
+        frame_event.pack_configure()
+        text_event = Text(frame_event, height=4, width=50)
+        text_event.pack_configure(side=RIGHT)
+        label_event = Label(frame_event, text='Nhập sự kiện')
+        label_event.pack_configure(side=LEFT, anchor=N)
+        frame_date = Frame(self)
+        frame_date.pack_configure()
+        label_day = Label(frame_date, text='Ngày')
+        label_day.pack_configure(side=LEFT)
+        entry_day = Entry(frame_date, width=2)
+        entry_day.pack_configure(side=LEFT)
+        label_month = Label(frame_date, text='Tháng')
+        label_month.pack_configure(side=LEFT)
+        entry_month = Entry(frame_date, width=2)
+        entry_month.pack_configure(side=LEFT)
+        label_year = Label(frame_date, text='Năm')
+        label_year.pack_configure(side=LEFT)
+        entry_year = Entry(frame_date, width=4)
+        entry_year.pack_configure(side=LEFT)
+        frame_button = Frame(self, border = 1, relief = SUNKEN)
+        frame_button.pack_configure(side=BOTTOM, anchor=E, padx=10)
+        button_1st = Button(frame_button, text='Tiếp tục')
+        button_1st.pack_configure(pady=5, side=RIGHT)
+        button_2nd = Button(frame_button, text='hoàn thành')
+        button_2nd.pack_configure(side=RIGHT)
 
+class page_create_combo(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        self.pack_configure(fill=BOTH, expand=True)
+        label = Label(self, text='Nhập tên bộ')
+        label.pack_configure()
+        entry = Entry(self, width=50)
+        entry.pack_configure()
+        button = Button(self, text='Tạo')
+        button.pack_configure(pady=5)
 
-def taobomoi(self):
-    frame = Frame(self.frame)
-    frame.pack_configure(fill=BOTH, expand=True)
-    label_day = Label(frame, text='Nhập tên bộ')
-    label_day.pack_configure()
-    entry_day = Entry(frame, width=50)
-    entry_day.pack_configure()
-    button1 = Button(frame, text='Enter')
-    button1.pack_configure(pady=5)
+class page_choose_combo(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        self.pack_configure(fill=BOTH, expand=True)
+        label = Label(self, text='Chọn bộ sự kiện kiểm tra của bạn')
+        label.pack_configure()
+        frame = Frame(self, width=300, height=200, bg='#00ffff')
+        frame.pack_configure()
+        scrollbar = Scrollbar(frame)
+        scrollbar.pack_configure(side=RIGHT, fill=Y)
+        listbox = Listbox(frame, width=75, yscrollcommand=scrollbar.set)
+        for i in range(1, 100):
+            listbox.insert(END, i)
+        listbox.pack_configure(side=LEFT)
+        scrollbar.configure(command=listbox.yview)
+        button = Button(self, text='Enter')
+        button.pack_configure(pady=5)
 
+class khungtaosk(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        self.pack_configure(fill=BOTH, expand=True)
+        label_question = Label(self, text='')
+        label_question.pack_configure()
+        frame_answer = Frame(self)
+        frame_answer.pack_configure()
+        label_day = Label(frame_answer, text='Ngày')
+        label_day.pack_configure(side=LEFT)
+        entry_day = Entry(frame_answer, width=2)
+        entry_day.pack_configure(side=LEFT)
+        label_month = Label(frame_answer, text='Tháng')
+        label_month.pack_configure(side=LEFT)
+        entry_month = Entry(frame_answer, width=2)
+        entry_month.pack_configure(side=LEFT)
+        label_year = Label(frame_answer, text='Năm')
+        label_year.pack_configure(side=LEFT)
+        entry_year = Entry(frame_answer, width=4)
+        entry_year.pack_configure(side=LEFT)
+        frame_button = Frame(self)
+        frame_button.pack_configure(side=BOTTOM, anchor=E, padx=10)
+        button_1st = Button(frame_button, text='Tiếp tục')
+        button_1st.pack_configure(pady=5, side=RIGHT)
+        button_2nd = Button(frame_button, text='hoàn thành')
+        button_2nd.pack_configure(side=RIGHT)
 
-def chonbokt(self):
-    frame = Frame(self.frame)
-    frame.pack_configure(fill=BOTH, expand=True)
-    label = Label(frame, text='Chọn bộ sự kiện kiểm tra của bạn')
-    label.pack_configure()
-    frame2 = Frame(frame, width=300, height=200, bg='#00ffff')
-    frame2.pack_configure()
-    scrollbar = Scrollbar(frame2)
-    scrollbar.pack_configure(side=RIGHT, fill=Y)
-    listbox = Listbox(frame2, width=75, yscrollcommand=scrollbar.set)
-    for i in range(1, 100):
-        listbox.insert(END, i)
-    listbox.pack_configure(side=LEFT)
-    scrollbar.configure(command=listbox.yview)
-    button = Button(frame, text='Enter')
-    button.pack_configure(pady=5)
-
-
-def khungtaosk(self):
-    frame = Frame(self.frame)
-    frame.pack_configure(fill=BOTH, expand=True)
-    label_question = Label(frame, text='')
-    label_question.pack_configure()
-    frame_answer = Frame(frame)
-    frame_answer.pack_configure()
-    label_day = Label(frame_answer, text='Ngày')
-    label_day.pack_configure(side=LEFT)
-    entry_day = Entry(frame_answer, width=2)
-    entry_day.pack_configure(side=LEFT)
-    label_month = Label(frame_answer, text='Tháng')
-    label_month.pack_configure(side=LEFT)
-    entry_month = Entry(frame_answer, width=2)
-    entry_month.pack_configure(side=LEFT)
-    label_year = Label(frame_answer, text='Năm')
-    label_year.pack_configure(side=LEFT)
-    entry_year = Entry(frame_answer, width=4)
-    entry_year.pack_configure(side=LEFT)
-    frame4 = Frame(frame)
-    frame4.pack_configure(side=BOTTOM, anchor=E, padx=10)
-    button1 = Button(frame4, text='Tiếp tục')
-    button1.pack_configure(pady=5, side=RIGHT)
-    button2 = Button(frame4, text='hoàn thành')
-    button2.pack_configure(side=RIGHT)
-
-
-def ht(self):
-    frame = Frame(self.frame)
-    frame.pack_configure(expand=True)
-    label = Label(frame, text='Hoàn thành')
-    label.pack_configure()
-    label2 = Label(frame, text='Trả lời đúng' + 'trên' + 'câu')
-
+class minipage_complete(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        self.pack_configure(expand=True)
+        label_1st = Label(self, text='Hoàn thành')
+        label_1st.pack_configure()
+        label_2nd = Label(self, text='Trả lời đúng' + 'trên' + 'câu')
+        label_2nd.pack_configure()
 
 #TAO MAN HINH
 window = Tk()
 window.wm_title('History Event')
 window.wm_resizable(0,0)
 window.wm_geometry('500x300+400+200')
-manhinhtren()
-jp = page1st()
+Example = next_back_bar()
+
 window.mainloop()
